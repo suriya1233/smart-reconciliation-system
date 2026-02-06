@@ -3,6 +3,17 @@ const logger = require('../utils/logger');
 
 const connectDB = async () => {
     try {
+        // Validate MONGODB_URI exists
+        if (!process.env.MONGODB_URI) {
+            const error = '❌ FATAL ERROR: MONGODB_URI environment variable is not set!';
+            console.error(error);
+            logger.error(error);
+            process.exit(1);
+        }
+
+        console.log('🔄 Attempting to connect to MongoDB...');
+        console.log(`   MongoDB URI: ${process.env.MONGODB_URI.substring(0, 30)}...`);
+
         const conn = await mongoose.connect(process.env.MONGODB_URI, {
             maxPoolSize: 10, // Maximum number of concurrent connections
             minPoolSize: 2,  // Minimum number of connections to maintain
@@ -34,7 +45,10 @@ const connectDB = async () => {
         });
 
     } catch (error) {
-        logger.error(`❌ Error connecting to MongoDB: ${error.message}`);
+        const errorMessage = `❌ Error connecting to MongoDB: ${error.message}`;
+        console.error(errorMessage);
+        console.error('Full error:', error);
+        logger.error(errorMessage);
         process.exit(1);
     }
 };

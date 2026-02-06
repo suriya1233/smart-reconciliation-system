@@ -1,4 +1,20 @@
 require('dotenv').config();
+
+// Validate critical environment variables
+const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET', 'FRONTEND_URL'];
+const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingVars.length > 0) {
+    console.error('❌ FATAL ERROR: Missing required environment variables:');
+    missingVars.forEach(varName => console.error(`   - ${varName}`));
+    console.error('\nPlease set these variables in Render Environment settings.');
+    process.exit(1);
+}
+
+console.log('✅ All required environment variables are set');
+console.log(`   NODE_ENV: ${process.env.NODE_ENV}`);
+console.log(`   FRONTEND_URL: ${process.env.FRONTEND_URL}`);
+
 const app = require('./app');
 const connectDB = require('./config/database');
 const logger = require('./utils/logger');
@@ -11,6 +27,7 @@ const PORT = process.env.PORT || 5000;
 
 // Start server
 const server = app.listen(PORT, () => {
+    console.log(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
     logger.info(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
     logger.info(`📡 Frontend URL: ${process.env.FRONTEND_URL}`);
     logger.info(`💾 Database: ${process.env.MONGODB_URI}`);
