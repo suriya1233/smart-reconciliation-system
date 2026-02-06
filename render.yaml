@@ -32,16 +32,13 @@ services:
     healthCheckPath: /health
     
   # Frontend Static Site
-  - type: web
+  - type: static
     name: reconciliation-frontend
-    runtime: node
-    plan: free # Frontend static sites are free on Render
-    region: oregon
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        value: https://reconciliation-backend.onrender.com/api # Update after backend deployment
+        value: https://reconciliation-backend.onrender.com/api
     headers:
       - path: /*
         name: Cache-Control
