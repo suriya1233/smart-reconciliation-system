@@ -1,0 +1,51 @@
+{
+    "name": "reconciliation-backend",
+    "version": "1.0.0",
+    "description": "Backend for Smart Reconciliation System",
+    "main": "src/server.js",
+    "scripts": {
+        "start": "node src/server.js",
+        "dev": "nodemon src/server.js",
+        "test": "jest --coverage",
+        "seed": "node seed.js"
+    },
+    "keywords": [
+        "reconciliation",
+        "mern",
+        "express",
+        "mongodb"
+    ],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@aws-sdk/client-s3": "^3.984.0",
+        "@aws-sdk/s3-request-presigner": "^3.984.0",
+        "@logtail/node": "^0.5.6",
+        "@logtail/winston": "^0.5.6",
+        "axios": "^1.13.4",
+        "bcryptjs": "^2.4.3",
+        "compression": "^1.8.1",
+        "cors": "^2.8.5",
+        "csv-parser": "^3.0.0",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "express-mongo-sanitize": "^2.2.0",
+        "express-rate-limit": "^7.1.5",
+        "helmet": "^7.1.0",
+        "hpp": "^0.2.3",
+        "joi": "^17.11.0",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.0.0",
+        "morgan": "^1.10.0",
+        "multer": "^1.4.5-lts.1",
+        "nodemailer": "^6.9.7",
+        "winston": "^3.11.0",
+        "xlsx": "^0.18.5",
+        "xss-clean": "^0.1.4"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "nodemon": "^3.0.2",
+        "supertest": "^6.3.3"
+    }
+}

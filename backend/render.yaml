@@ -1,0 +1,66 @@
+services:
+  # Backend API Service
+  - type: web
+    name: reconciliation-backend
+    runtime: node
+    plan: starter # or free for testing
+    region: oregon # choose closest to your users
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false # Set in Render dashboard (secret)
+      - key: JWT_SECRET
+        generateValue: true # Auto-generate secure secret
+      - key: JWT_EXPIRE
+        value: 24h
+      - key: JWT_REFRESH_EXPIRE
+        value: 7d
+      - key: FRONTEND_URL
+        fromService:
+          name: reconciliation-frontend
+          type: web
+          property: host
+      - key: MAX_FILE_SIZE
+        value: 10485760
+      - key: LOG_LEVEL
+        value: info
+      - key: UPLOAD_DIR
+        value: /opt/render/project/uploads
+    autoDeploy: true
+    healthCheckPath: /health
+    
+  # Frontend Static Site
+  - type: web
+    name: reconciliation-frontend
+    runtime: node
+    plan: starter
+    region: oregon
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: reconciliation-backend
+          type: web
+          property: host
+        value: https://${BACKEND_URL}/api
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /index.html
+        name: Cache-Control
+        value: no-cache, must-revalidate
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+databases:
+  # Use MongoDB Atlas (external)
+  # Connection string set via MONGODB_URI env var

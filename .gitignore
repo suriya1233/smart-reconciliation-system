@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+.env.production
+backend/.env
+
+# Build outputs
+dist/
+build/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+backend/logs/
+
+# Uploads (use persistent disk or S3 in production)
+backend/uploads/
+uploads/
+
+# Testing
+coverage/
+
+# Misc
+.cache/
+temp/
+tmp/
